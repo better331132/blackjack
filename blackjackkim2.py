@@ -7,6 +7,8 @@ sort=len(cardsort)
 num=len(cardnum)
 cardtotal=[]
 class Card:
+    deck=[]
+    valuelist=[]
     def __init__(self):
        for i in range(sort):
             for k in range(num):
@@ -36,8 +38,6 @@ class Card:
             
             
 class Player(Card):
-    deck=[]
-    valuelist=[]
     def __init__(self):
         self.name="당신"
 
@@ -87,8 +87,6 @@ class Player(Card):
 
 
 class Dealer(Card):
-    deck=[]
-    valuelist=[]
     def __init__(self):    
         self.point=0
         self.name="딜러"

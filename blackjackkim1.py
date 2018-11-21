@@ -5,6 +5,8 @@ cardnum = [*'23456789FJQKA']
 sort=len(cardsort)
 num=len(cardnum)
 class Card:
+    deck=[]
+    valuelist=[]
     def __init__(self):
         for i in range(sort):
             for k in range(num):
@@ -209,7 +211,7 @@ while True:
 
         elif msg == 'S':
             if player.valuelist.count(11) >= 1:
-                    qmsg=input("에이스가 {} 개 있네요. 무엇으로 하시겠습니까? '1' 또는 '11'을 차례대로 입력해주세요!\n 'AA'일 경우 '11,11' 혹은 '1,1 (콤마로구분)".format(player.valulist.count(11)))
+                    qmsg=input("에이스가 {} 개 있네요. 무엇으로 하시겠습니까? '1' 또는 '11'을 차례대로 입력해주세요!\n 'AA'일 경우 '11,11' 혹은 '1,1 (콤마로구분)".format(player.valulist.count(11))
                     acechoice=qmsg.split(',')
                     for i in range(len[acechoice]):
                         choiceassign=[]
