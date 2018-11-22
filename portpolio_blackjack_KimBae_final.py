@@ -45,7 +45,7 @@ while True:
                 else:
                     exist_a = 0
                 self.quant_a = self.quant_a + exist_a
-            print("\n",self.pocket,"\n")
+            print("\n당신의 카드목록입니다.>> ",self.pocket,"\n")
             print("당신은 A를 {}개 보유하고 있습니다.".format(self.quant_a))
         
         def trans_a(self):
@@ -120,27 +120,27 @@ while True:
         player.havemanya()
         player.trans_a()
         if player.final_score > 21:
-            print("패배")
+            print("21점을 초과하였습니다.\n 당신은 패배하셨습니다.")
             break
         player.add_card()
         if player.det == 'stay':
             break
-    print(player.pocket)
+    print("당신의 카드목록입니다.>> ",player.pocket)
 
     print("\n당신의 최종 점수는 {}점 입니다.".format(player.final_score))
     print("\n딜러의 최종 점수는 {}점 입니다.\n".format(dealer.final_score))
-    print("딜러덱",dealer.pocket,"\n")
+    print("딜러의 카드목록입니다.>> ",dealer.pocket,"\n")
     if player.final_score > 21:
-        print("패배")
+        print("21점을 초과하였습니다.\n 당신은 패배하셨습니다.")
     elif player.final_score <= 21 and dealer.final_score > 21 :
-        print("승리")
+        print("딜러의 점수가 21점을 초과하였습니다. \n 당신은 승리하셨습니다.")
     else:
         if player.final_score > dealer.final_score:
-            print("승리")
+            print("당신의 점수가 딜러의 점수보다 높습니다.\n 당신은 승리하셨습니다.")
         elif player.final_score == dealer.final_score:
-            print("무승부")
+            print("당신의 점수가 딜러의 점수와 같습니다.\n 무승부입니다.")
         else :
-            print("패배")
+            print("당신의 점수가 딜러의 점수보다 낮습니다.\n 당신은 패배하셨습니다.")
     
     reset = input("\n게임을 더 하시겠습니까?(y/n)>> ")
     if reset == 'y':
