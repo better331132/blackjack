@@ -2,7 +2,7 @@
 ## Project 설명
 BlackJack의 가장 기본적인 룰만을 반영하여 딜러와 플레이어가 1:1로 진행하는 게임에 관한 Python 코딩입니다.  
 외부모듈의 사용이 없고 Python의 내장함수를 주로 사용하여 게임의 진행과정을 나타내었습니다.  
-Python의 함수정의, class, inheritance, for나 while을 활용한 반복구문의 **기초적 학습**에 도움이 될 것입니다.  
+Python의 class, method의 정의, inheritance, instance와 for나 while을 활용한 반복구문의 **기초적 학습**에 도움이 될 것입니다.  
   
 ## Collaborators
 #### 김영모, 배준홍
