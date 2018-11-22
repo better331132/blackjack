@@ -39,7 +39,9 @@ if reset == 'n':
   print("\n게임이 종료되었습니다.")  
   break  
 ```
-한 차례의 게임이 끝나면 재시작 여부를 확인하는 코드입니다.
+한 차례의 게임이 끝나면 재시작 여부를 확인하는 코드입니다.  
+input함수를 통해 입력된 값은 reset에 할당되고 if조건에 따라 게임이 재시작 되거나 종료문구 출력 후 게임이 종료됩니다.  
+\n은 output의 위치를 강제로 한 칸 내려줍니다.
 
 ### Line 4 ~ 6
 ```
@@ -48,14 +50,16 @@ if reset == 'n':
         pass
 ```
 준비가 되면 Enter키를 눌러 게임을 시작합니다.  
-input함수에 입력한 값이 변수 start에 저장되고  
-저장된 값이 if조건을 충족하면 다음 코드를 진행합니다.
+아무 키나 입력하라고 써놨지만 결국 Enter키를 입력해야 합니다.
+input함수에 입력한 값이 변수 start에 저장되고 저장된 값이 if조건을 충족하면 다음 코드를 진행합니다.
 
 ### Line 8
 ```
     card_flow = []
 ```
 class Deck의 instance에서 카드를 한 장 뽑아올 때 카드를 잠시 맡겨 놓는 장소입니다.  
+class Deck에서 추출된 카드가 잠깐 들르는 곳이라 흘러간다고 느껴져 card_flow라 명명하였습니다.  
+어떤 class 의 instance들이라도 연결고리를 유지하기 위해 전역변수로 설정하였습니다.  
 
 ### Line 9 ~ 22
 #### Line 9 ~ 16 :
@@ -71,15 +75,18 @@ class Deck의 instance에서 카드를 한 장 뽑아올 때 카드를 잠시 �
 ```
 class Deck의 instance 생성과 동시에 실행되는 함수입니다.  
 카드의 모양은 self.cardsort라는 list에, 카드의 번호는 self.cardnum이라는 list에 각각 할당합니다.  
-카드의 모양과 번호를 조합하여 카드 한 세트를 self.cards에 채워넣습니다.  
+s 값에 cardsort에서 하나의 element 들어올 때 n에 cardnum의 모든 element들이 s와 순차적으로 matching됩니다.  
+s 값에 cardsort의 모든 element들이 할당될 때까지 위 과정을 반복합니다.  
+이런 과정을 통해 카드의 모양과 번호를 조합하여 카드 한 세트를 self.cards에 채워넣습니다.  
 
 #### Line 18 ~ 19 :
 ```
         def shuffle_cards(self):
             random.shuffle(self.cards)
 ```
-self.cards에 순서대로 생성된 카드를 random모듈의 shuffle함수를 통해 self.cards의 elements의 순서를 무작위로 나열합니다.  
-함수가 호출된 이후에 self.cards의 순서는 무작위 나열된 상태로 저장됩니다.
+random모듈의 shuffle함수를 이용해 정의한 class Deck의 method입니다.
+이 method가 호출되면 self.cards의 elements의 순서가 무작위로 나열됩니다.  
+또한 self.cards의 순서는 무작위 나열된 상태로 저장됩니다.
 
 #### Line 21 ~ 22 :
 ```
@@ -96,7 +103,7 @@ self.cards의 첫번째 element를 뽑아 Line 8의 'card_flow = [ ]'에 저장�
             self.pocket =[]
 ```
 class Dealer와 class Player가 상속 받을 상위 class입니다.  
-Dealer의 instance인 dealer와 Player의 instance인 player 모두 사람이므로 이 클래스를 Person이라 명명했습니다.  
+class Dealer의 instance인 dealer와 class Player의 instance인 player가 모두 사람이므로 이 클래스를 Person이라 명명했습니다.  
 instance인 dealer와 player가 생성될 때 각 플레이어의 카드보관함 역할을 할 self.pocket이 비어있는 list로 제공됩니다.
 
 #### Line 29 ~ 30 :
@@ -104,7 +111,8 @@ instance인 dealer와 player가 생성될 때 각 플레이어의 카드보관�
         def dealt_card(self):
             self.pocket.append(card_flow.pop(0))
 ```
-Line 21 ~ 22 과정을 통해 card_flow에 보관된 카드 한 장을 게임 참여자의 카드보관함으로 이동시킵니다.
+Line 21 ~ 22 과정을 통해 card_flow에 보관된 카드 한 장을 게임 참여자의 카드보관함으로 이동시킵니다.  
+각각의 player에게 분배된 카드를 dealt card라 부르기에 이 method의 이름을 dealt_card라 명명했습니다.
 
 #### Line 32 ~ 41 : 
 ```
@@ -121,7 +129,7 @@ Line 21 ~ 22 과정을 통해 card_flow에 보관된 카드 한 장을 게임 �
 ```
 각각의 카드 보관함에 있는 카드를 점수로 변환하고 합산하여 도출한 임시점수입니다.  
 Sum_t는 temporary sum의 의미이고 초기값을 0으로 주었습니다.  
-카드 보관함 [i]번째 요소의 마지막 글자를 기준으로 각각의 카드에 점수를 할당합니다.  
+카드 보관함 [i]번째 element의 마지막 글자를 기준으로 각각의 카드에 점수를 할당합니다.  
 for구문에서 순차적으로 배출되는 카드 각각의 점수를 합산합니다.  
 
 #### Line 43 ~ 52 :
@@ -138,10 +146,11 @@ for구문에서 순차적으로 배출되는 카드 각각의 점수를 합산�
             print("\n당신은 A를 {}개 보유하고 있습니다.".format(self.quant_a))
 ```
 개인 카드 보관함의 Ace개수를 파악하고 카드 목록과 A의 개수를 표시해주는 method입니다.  
-Ace의 개수를 나타내는 attr은 quant_a로 명명하고 초기값은 역시 0으로 설정합니다.  
-개인 보관함의 카드 개수만큼 for구문 내부의 명령을 반복실행하여 Ace가 발견되면 1을, Ace가 발견되지 않으면 0을 주어 합산합니다.  
-합산된 결과가 각각의 보관함에 있는 A의 개수입니다.  
-카드현황과 목록에 포함된 Ace의 개수를 표시합니다.
+Ace의 수를 파악하는 method임에 착안해 how many a라 명명했습니다.
+Ace의 수를 나타내는 attr는 quant_a로 명명하고 초기값은 역시 0으로 설정합니다.  
+카드 보관함의 카드 수만큼 for구문 내부의 명령을 반복실행하여 Ace가 발견되면 1을, Ace가 발견되지 않으면 0을 주어 합산합니다.  
+합산된 결과가 각각의 보관함에 있는 A의 수입니다.  
+또한 카드현황과 목록에 포함된 Ace의 수를 합니다.
 
 #### Line 54 ~ 60 :
 ```
@@ -154,8 +163,9 @@ Ace의 개수를 나타내는 attr은 quant_a로 명명하고 초기값은 역�
                 self.final_score = self.sum_t - 10 * int(q)
 ```
 발견된 Ace중 점수를 치환할 Ace의 개수를 선택하는 method입니다.  
+trans_a 는 Ace의 값을 치환(transpose)한다는 의미를 생각하여 차용했습니다.
 Ace의 점수를 하나로 특정하고나면 현재 카드현황의 최종 점수합을 도출해 낼 수 있습니다.  
-Ace 점수 치환과정까지 모두 마친 카드현황의 최종 점수합을 final_score라는 attr로 명명하였고 초기값을 0으로 할당합니다.  
+Ace의 점수 치환과정까지 모두 마친 카드현황의 최종 점수합을 final_score라는 attr로 명명하였고 초기값을 0으로 할당합니다.  
 Ace가 없다면 입력창은 나타나지 않고 임시합(sum_t)이 최종 점수합(final_score)이 됩니다.  
 Ace가 1개 이상이라면 선택한 Ace의 개수에 따라 임시합이 조정되고 최종 점수합이 도출됩니다.
 
@@ -174,8 +184,10 @@ Ace가 1개 이상이라면 선택한 Ace의 개수에 따라 임시합이 조�
             print("\n-----------------------------------------------------------")
 ```
 class Person의 상속을 받는 하위 class입니다.  
+따라서 class Person에 속한 method들을 class Player(Person)의 instance가 호출할 수 있습니다.  
 카드 추가 여부를 입력값을 통해 결정하는 method를 추가합니다.  
-class Player의 상속을 받는 하위 class가 없기 때문에 이 method는 class Player의 인스턴스에만 적용됩니다.  
+이 method의 이름은 저것밖에 생각이 안났습니다.
+한편 class Player의 상속을 받는 하위 class가 없기 때문에 이 method는 class Player의 instance만이 호출할 수 있습니다.  
 
 ### Line 73 ~ 98
 #### Line 73 ~ 81 :
@@ -189,9 +201,13 @@ class Player의 상속을 받는 하위 class가 없기 때문에 이 method는 
                 else:
                     exist_a = 0
                 self.quant_a = self.quant_a + exist_a
+          ~~print("\n당신의 카드목록입니다.>> ",self.pocket)~~
+          ~~print("\n당신은 A를 {}개 보유하고 있습니다.".format(self.quant_a))~~
 ```
 class Person의 상속을 받는 하위 class입니다.  
-Line 43 ~ 52중 Line 43 ~ 50까지는 동일하나 카드의 목록과 Ace의 개수를 표시하지 않으므로 Line 51, 52는 삭제하였습니다.
+따라서 class Person에 속한 method들을 class Dealer(Person)의 instance가 호출할 수 있습니다.  
+class Dealer(Person)의 howmanya method는 class Dealer(person)의 instance가 갖는 카드현황과 Ace 수를 보이지 않게 해야합니다.
+Line 43 ~ 52중 Line 43 ~ 50까지는 동일하나 카드현황과 Ace의 개수를 출력하지 않아야 하므로 Line 51, 52는 삭제하였습니다.
 
 #### Line 83 ~ 91 :
 ```
@@ -205,6 +221,8 @@ Line 43 ~ 52중 Line 43 ~ 50까지는 동일하나 카드의 목록과 Ace의 �
             else :
                 self.final_score = self.sum_t
 ```
+class Person의 method와 이름과 목적은 같지만 구조는 상이합니다.  
+class Dealer(Person)의 instance가 trans_a method를 호출하면 해당 method가 호출됩니다.  
 최종 점수합(final_score)의 초기값에 0을 할당합니다.  
 임시합(sum_t)이 17보다 클 때, 임시합(sum_t)이 21보다 크며 개인 카드 보관함에 Ace의 개수가 하나 이상이면 Ace의 점수를 11점에서 1점으로 치환하며 Ace의 개수를 한장씩 차감합니다.  
 임시합이 21보다 작아지거나 Ace의 수가 0개가 되면 Ace의 점수를 치환할 이유가 없거나 치환 자체가 불가능해지므로 while loof를 빠져나오고 조정된 임시합을 최종 점수합에 할당하게 됩니다.  
@@ -218,9 +236,11 @@ Line 43 ~ 52중 Line 43 ~ 50까지는 동일하나 카드의 목록과 Ace의 �
             else:
                 self.disc = 'stay'
 ```
-class Dealer의 instance의 카드 추가는 따로 입력하는 값 없이 최종 점수합을 기준으로 결정됩니다.  
+class Player의 method와 이름과 목적만 같습니다. 구조는 역시 상이합니다.
+class Dealer의 instance의 카드 추가는 class Player의 intance와는 달리 따로 입력하는 값 없이 최종 점수합을 기준으로 결정됩니다.  
 class Dealer의 instance가 카드 추가 여부를 판별하는데 쓰이는 attr의 이름은 수학에서의 판별식 discriminant에서 따왔습니다.  
-disc의 초기값은 hit으로 주었고 class Dealer의 instance의 최종 점수합이 17보다 작으면 disc에 hit을 할당하고 17보다 크거나 같으면 stay를 할당합니다.
+disc의 초기값은 hit으로 주었고 class Dealer의 instance의 최종 점수합이 17보다 작으면 disc에 hit을 할당하고 17보다 크거나 같으면 stay를 할당합니다.  
+stay는 Line 115 ~ 117에 영향을 미칩니다.  
 
 ### Line 100 ~ 107
 #### Line 100 :
