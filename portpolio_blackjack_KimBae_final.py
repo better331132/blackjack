@@ -1,9 +1,10 @@
 import random
 
 while True:
-    start = input("게임을 시작하시려면 Enter를 입력해주세요.")
+    start = input("게임을 시작하시려면 아무 키나 입력해주세요.")
     if start == '':
         pass
+
     card_flow = []                      #덱에서 꺼낸 카드를 잠시 보관
     class Deck:
         def __init__(self):
@@ -29,7 +30,7 @@ while True:
             self.pocket.append(card_flow.pop(0))
         
         def value_assign(self):         #개인 카드 보관함에 있는 모든 카드의 점수를 배정(A값의 default는 11점)
-            self.sum_i = 0
+            self.sum_t = 0
             for i in range(len(self.pocket)):
                 if self.pocket[i][-1] in ['0', 'J', 'Q', 'K']:
                     card_value = 10
@@ -37,8 +38,7 @@ while True:
                     card_value = 11
                 else:
                     card_value = int(self.pocket[i][-1])
-                self.sum_i = self.sum_i + card_value        #A값 선택 전 임시합
-
+                self.sum_t = self.sum_t + card_value        #A값 선택 전 임시합
         
         def howmanya(self):            #개인 카드 보관함에 있는 A카드의 개수를 나타내고 카드 목록과 A의 개수를 알림
             self.quant_a = 0
@@ -54,10 +54,10 @@ while True:
         def trans_a(self):              #A 카드 중 1점으로 전환할 카드의 개수를 선택
             self.final_score = 0
             if self.quant_a == 0:
-                self.final_score = self.sum_i #A 카드가 없다면 임시합이 현재 카드 목록의 최종합
+                self.final_score = self.sum_t #A 카드가 없다면 임시합이 현재 카드 목록의 최종합
             else:
                 q = input("\n1점으로 간주할 A의 개수를 선택해주세요. {}개까지 가능합니다.(숫자로 입력) >> ".format(self.quant_a))
-                self.final_score = self.sum_i - 10 * int(q)
+                self.final_score = self.sum_t - 10 * int(q)
 
     class Player(Person):       #Person의 하위클래스 : 카드추가여부를 입력값으로 결정하는 메쏘드를 추가
         def add_card(self):
@@ -82,13 +82,13 @@ while True:
         
         def trans_a(self):      #딜러 카드보관함에 포함된 A의 점수전환 여부를 입력값없이 결정
             self.final_score = 0
-            if self.sum_i >= 17:
-                while self.sum_i > 21 and self.quant_a >= 1:
+            if self.sum_t >= 17:
+                while self.sum_t > 21 and self.quant_a >= 1:
                     self.quant_a = self.quant_a - 1
-                    self.sum_i = self.sum_i - 10
-                self.final_score = self.sum_i
+                    self.sum_t = self.sum_t - 10
+                self.final_score = self.sum_t
             else :
-                self.final_score = self.sum_i
+                self.final_score = self.sum_t
         
         def add_card(self):     #딜러 카드추가여부를 입력값없이 결정
             self.det ='hit'
@@ -96,7 +96,6 @@ while True:
                 self.det = 'hit'
             else:
                 self.det = 'stay'
-
 
     deck = Deck()                   #deck 생성
     deck.shuffle_cards()            #deck 카드셔플
