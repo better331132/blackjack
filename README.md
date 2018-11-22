@@ -20,13 +20,13 @@ https://www.python.org/ 에 들어가서 download목록에 마우스를 올려�
 
 ## 코드리뷰
 
-#### Line 1 :  
+### Line 1  
 ~~~
 import random  
 ~~~
 random 모듈에 속한 shuffle 함수를 사용하기 위해 random모듈을 적용합니다.
 
-#### Line 3, Line 152 ~ 158 :  
+### Line 3, Line 152 ~ 158
 ~~~
 while True:  
 ~~~
@@ -41,7 +41,7 @@ if reset == 'n':
 ```
 한 차례의 게임이 끝나면 재시작 여부를 확인하는 코드입니다.
 
-### Line 4 ~ 6 :
+### Line 4 ~ 6
 ```
     start = input("게임을 시작하시려면 아무 키나 입력해주세요.")
     if start == '':
@@ -51,13 +51,13 @@ if reset == 'n':
 input함수에 입력한 값이 변수 start에 저장되고  
 저장된 값이 if조건을 충족하면 다음 코드를 진행합니다.
 
-### Line 8 :
+### Line 8
 ```
     card_flow = []
 ```
 class Deck의 instance에서 카드를 한 장 뽑아올 때 카드를 잠시 맡겨 놓는 장소입니다.  
 
-### Line 9 ~ 22 :
+### Line 9 ~ 22
 #### Line 9 ~ 16 :
 ```
     class Deck:
@@ -86,9 +86,9 @@ self.cards에 순서대로 생성된 카드를 random모듈의 shuffle함수를 
         def pop_card(self):
             card_flow.append(self.cards.pop(0))
 ```
-self.cards의 첫번째 element를 뽑아 Line 8의 'card_flow = []'에 저장합니다.
+self.cards의 첫번째 element를 뽑아 Line 8의 'card_flow = [ ]'에 저장합니다.
 
-### Line 25 ~ 61 :
+### Line 25 ~ 61
 #### Line 25 ~ 27 :
 ```
     class Person:
@@ -107,3 +107,295 @@ instance인 dealer와 player가 생성될 때 각 플레이어의 카드보관�
 Line 21 ~ 22 과정을 통해 card_flow에 보관된 카드 한 장을 게임 참여자의 카드보관함으로 이동시킵니다.
 
 #### Line 32 ~ 41 : 
+```
+        def value_assign(self):
+            self.sum_t = 0
+            for i in range(len(self.pocket)):
+                if self.pocket[i][-1] in ['0', 'J', 'Q', 'K']:
+                    card_value = 10
+                elif self.pocket[i][-1] in 'A':
+                    card_value = 11
+                else:
+                    card_value = int(self.pocket[i][-1])
+                self.sum_t = self.sum_t + card_value
+```
+각각의 카드 보관함에 있는 카드를 점수로 변환하고 합산하여 도출한 임시점수입니다.  
+Sum_t는 temporary sum의 의미이고 초기값을 0으로 주었습니다.  
+카드 보관함 [i]번째 요소의 마지막 글자를 기준으로 각각의 카드에 점수를 할당합니다.  
+for구문에서 순차적으로 배출되는 카드 각각의 점수를 합산합니다.  
+
+#### Line 43 ~ 52 :
+```
+        def howmanya(self):
+            self.quant_a = 0
+            for i in range(len(self.pocket)):
+                if self.pocket[i][-1] == 'A':
+                    exist_a = 1
+                else:
+                    exist_a = 0
+                self.quant_a = self.quant_a + exist_a
+            print("\n당신의 카드목록입니다.>> ",self.pocket)
+            print("\n당신은 A를 {}개 보유하고 있습니다.".format(self.quant_a))
+```
+개인 카드 보관함의 Ace개수를 파악하고 카드 목록과 A의 개수를 표시해주는 method입니다.  
+Ace의 개수를 나타내는 attr은 quant_a로 명명하고 초기값은 역시 0으로 설정합니다.  
+개인 보관함의 카드 개수만큼 for구문 내부의 명령을 반복실행하여 Ace가 발견되면 1을, Ace가 발견되지 않으면 0을 주어 합산합니다.  
+합산된 결과가 각각의 보관함에 있는 A의 개수입니다.  
+카드현황과 목록에 포함된 Ace의 개수를 표시합니다.
+
+#### Line 54 ~ 60 :
+```
+        def trans_a(self):
+            self.final_score = 0
+            if self.quant_a == 0:
+                self.final_score = self.sum_t #A 카드가 없다면 임시합이 현재 카드 목록의 최종합
+            else:
+                q = input("\n1점으로 간주할 A의 개수를 선택해주세요. {}개까지 가능합니다.(숫자로 입력) >> ".format(self.quant_a))
+                self.final_score = self.sum_t - 10 * int(q)
+```
+발견된 Ace중 점수를 치환할 Ace의 개수를 선택하는 method입니다.  
+Ace의 점수를 하나로 특정하고나면 현재 카드현황의 최종 점수합을 도출해 낼 수 있습니다.  
+Ace 점수 치환과정까지 모두 마친 카드현황의 최종 점수합을 final_score라는 attr로 명명하였고 초기값을 0으로 할당합니다.  
+Ace가 없다면 입력창은 나타나지 않고 임시합(sum_t)이 최종 점수합(final_score)이 됩니다.  
+Ace가 1개 이상이라면 선택한 Ace의 개수에 따라 임시합이 조정되고 최종 점수합이 도출됩니다.
+
+### Line 62 ~ 71
+#### Line 62 ~ 71 :
+```
+    class Player(Person):
+        def add_card(self):
+            print("\n당신의 현재 점수는 {}점 입니다.\n".format(self.final_score))
+            hos = input("카드를 더 받으시겠습니까?(y/n) >> ")
+            self.det = 'hit'
+            if hos == 'y':
+                self.det = 'hit'
+            else:
+                self.det = 'stay'
+            print("\n-----------------------------------------------------------")
+```
+class Person의 상속을 받는 하위 class입니다.  
+카드 추가 여부를 입력값을 통해 결정하는 method를 추가합니다.  
+class Player의 상속을 받는 하위 class가 없기 때문에 이 method는 class Player의 인스턴스에만 적용됩니다.  
+
+### Line 73 ~ 98
+#### Line 73 ~ 81 :
+```
+    class Dealer(Person):
+        def howmanya(self):
+            self.quant_a = 0
+            for i in range(len(self.pocket)):
+                if self.pocket[i][-1] == 'A':
+                    exist_a = 1
+                else:
+                    exist_a = 0
+                self.quant_a = self.quant_a + exist_a
+```
+class Person의 상속을 받는 하위 class입니다.  
+Line 43 ~ 52중 Line 43 ~ 50까지는 동일하나 카드의 목록과 Ace의 개수를 표시하지 않으므로 Line 51, 52는 삭제하였습니다.
+
+#### Line 83 ~ 91 :
+```
+        def trans_a(self):
+            self.final_score = 0
+            if self.sum_t >= 17:
+                while self.sum_t > 21 and self.quant_a >= 1:
+                    self.quant_a = self.quant_a - 1
+                    self.sum_t = self.sum_t - 10
+                self.final_score = self.sum_t
+            else :
+                self.final_score = self.sum_t
+```
+최종 점수합(final_score)의 초기값에 0을 할당합니다.  
+임시합(sum_t)이 17보다 클 때, 임시합(sum_t)이 21보다 크며 개인 카드 보관함에 Ace의 개수가 하나 이상이면 Ace의 점수를 11점에서 1점으로 치환하며 Ace의 개수를 한장씩 차감합니다.  
+임시합이 21보다 작아지거나 Ace의 수가 0개가 되면 Ace의 점수를 치환할 이유가 없거나 치환 자체가 불가능해지므로 while loof를 빠져나오고 조정된 임시합을 최종 점수합에 할당하게 됩니다.  
+
+#### Line 93 ~ 98 :
+```
+        def add_card(self):
+            self.disc ='hit'
+            if self.final_score < 17:
+                self.disc = 'hit'
+            else:
+                self.disc = 'stay'
+```
+class Dealer의 instance의 카드 추가는 따로 입력하는 값 없이 최종 점수합을 기준으로 결정됩니다.  
+class Dealer의 instance가 카드 추가 여부를 판별하는데 쓰이는 attr의 이름은 수학에서의 판별식 discriminant에서 따왔습니다.  
+disc의 초기값은 hit으로 주었고 class Dealer의 instance의 최종 점수합이 17보다 작으면 disc에 hit을 할당하고 17보다 크거나 같으면 stay를 할당합니다.
+```
+### Line 100 ~ 107
+#### Line 100 :
+```
+    deck = Deck()
+``` 
+class Deck의 instance인 deck을 생성합니다.  
+생성과 동시에 카드를 52장 순서대로 생성하여 list 형태로 deck.cards에 보관합니다.  
+또한 class Deck의 method를 호출할 수 있게 됩니다.  
+
+#### Line 101 :
+```
+    deck.shuffle_cards()
+```
+deck.cards에 생성된 카드들(elements)의 순서를 무작위로 나열하는method를 호출합니다.  
+
+#### Line 102 :
+```
+    dealer = Dealer()
+```
+dealer가 게임에 참여합니다. (class Dealer(Person)의 intance인 dealer가 생성됩니다.)  
+카드 보관함인 dealer.pocket을 비어 있는 list의 형태로 지급받습니다.  
+
+#### Line 103 :
+```
+    player = Player()
+```
+player가 게임에 참여합니다. (class Player(Person)의 instance인 player가 생성됩니다.)
+카드 보관함인 player.pocket을 비어 있는 list의 형태로 지급받습니다.
+
+#### Line 104 :
+```
+    deck.pop_card()
+```
+deck.cards에서 가장 앞에 위치한 카드를 1장 추출하여 card_flow에 담는 method를 호출합니다.
+ 
+#### Line 105 :
+```
+    player.dealt_card()
+```
+card_flow에 담긴 한 장의 카드를 player.pocket으로 옮기는 method를 호출합니다.  
+
+#### Line 106 :
+```
+    deck.pop_card()
+```
+Line 104 와 동일합니다.
+
+#### Line 107 :
+```
+    dealer.dealt_card()
+```
+card_flow에 담긴 한 장의 카드를 dealer.pocket으로 옮기는 method를 호출합니다.  
+
+### Line 109 ~ 117
+#### Line 109, 115 ~ 117 :
+```
+    while True: 
+```
+```
+        dealer.add_card()
+        if dealer.disc == 'stay':    
+            break
+```
+카드 추가 절차를 수차례 반복합니다.  
+점수에 따라 카드를 추가할지 여부를 판단 후에 카드를 추가해야하면 Line 110으로 돌아가고 추가하지 않으면 while loof를 바로 빠져나옵니다.
+
+#### Line 110 :
+```
+        deck.pop_card()
+```
+Line 104과 동일합니다.
+
+#### Line 111 :
+```
+        player.dealt_card()
+```
+Line 107과 동일합니다.
+
+#### Line 112 :
+```
+        dealer.value_assign()
+```
+현재 dealer가 보유한 카드들 각각에 점수를 할당한 후 임시합을 계산하는 method를 호출합니다.
+
+#### Line 113 :
+```
+        dealer.howmanya()
+```
+dealer가 가진 Ace 수를 파악하는 method를 호출합니다.  
+
+#### Line 114 :
+```
+        dealer.trans_a()
+```
+dealer의 임시합을 기준으로 Ace 점수를 치환할 수 있는 method를 호출합니다.
+
+### Line 119 ~ 129
+#### Line 119, 125 ~ 129 :
+```
+    while True:
+```
+```
+        if player.final_score > 21:
+            break
+        player.add_card()
+        if player.disc == 'stay':
+            break
+```
+카드 추가 절차를 수차례 반복합니다.  
+while loof 반복 중에 Ace의 점수 치환을 마친 최종 점수가 21보다 클 경우 while loof를 즉시 빠져나옵니다.  
+while loof에서 강제로 이탈하지 않은 경우에만 카드 추가 여부를 결정합니다.
+
+#### Line 120 :
+```
+        deck.pop_card()
+```
+Line 104와 동일합니다.
+
+#### Line 121 :
+```
+        player.dealt_card()
+```
+Line 105와 동일합니다.
+
+#### Line 122 :
+```
+        player.value_assign()
+```
+Line 112와 동일합니다.
+
+#### Line 123 :
+```
+        player.howmanya()
+```
+player가 가진 Ace 수를 파악하고 카드현황과 Ace 수를 표시하는 method를 호출합니다.
+
+#### Line 124 :
+```
+        player.trans_a()
+```
+player가 가진 Ace의 점수를 Ace 수 이내에서 선택하여 입력하여 치환할 수 있는 method를 호출합니다.
+
+### Line 131 ~ 138
+#### Line 131 ~ 138 :
+```
+    print("Player ♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠")
+    print("당신의 카드목록입니다.>> ",player.pocket)
+    print("\n당신의 최종 점수는 {}점 입니다.".format(player.final_score))
+    print("♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠\n")
+    print("Dealer ♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤")
+    print("딜러의 카드목록입니다.>> ",dealer.pocket)
+    print("\n딜러의 최종 점수는 {}점 입니다.".format(dealer.final_score))
+    print("♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤♤\n")
+```
+게임 참여자 각각의 카드 현황과 최종 점수합을 출력합니다.
+
+### Line 140 ~ 150
+#### Line 140 ~ 150 :
+```
+    if player.final_score > 21:
+        print("21점을 초과하였습니다.\n\n당신은 패배하셨습니다.")
+    elif player.final_score <= 21 and dealer.final_score > 21 :
+        print("딜러의 점수가 21점을 초과하였습니다.\n\n당신은 승리하셨습니다.")
+    else:
+        if player.final_score > dealer.final_score:                                 
+            print("당신의 점수가 딜러의 점수보다 높습니다.\n\n당신은 승리하셨습니다.")   
+        elif player.final_score == dealer.final_score:                              
+            print("당신의 점수가 딜러의 점수와 같습니다.\n\n무승부입니다.") 
+        else :                                                                      
+            print("당신의 점수가 딜러의 점수보다 낮습니다.\n\n당신은 패배하셨습니다.")
+```
+각 경우의 승패를 판정합니다.
+player가 21을 초과할 경우 dealer의 점수와 상관 없이 player는 패배합니다.  
+dealer만 21점을 초과한 경우에 player는 승리합니다.  
+player와 dealer의 점수가 모두 21 이하인 경우에 한해서 점수를 비교합니다.  
+player와 dealer의 점수가 같을 때는 무승부로 처리합니다.  
+비교하여 더 높은 점수를 가진 쪽이 승리합니다.
