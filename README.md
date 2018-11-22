@@ -221,7 +221,7 @@ Line 43 ~ 52중 Line 43 ~ 50까지는 동일하나 카드의 목록과 Ace의 �
 class Dealer의 instance의 카드 추가는 따로 입력하는 값 없이 최종 점수합을 기준으로 결정됩니다.  
 class Dealer의 instance가 카드 추가 여부를 판별하는데 쓰이는 attr의 이름은 수학에서의 판별식 discriminant에서 따왔습니다.  
 disc의 초기값은 hit으로 주었고 class Dealer의 instance의 최종 점수합이 17보다 작으면 disc에 hit을 할당하고 17보다 크거나 같으면 stay를 할당합니다.
-```
+
 ### Line 100 ~ 107
 #### Line 100 :
 ```
