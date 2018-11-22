@@ -125,11 +125,12 @@ while True:
         player.add_card()
         if player.det == 'stay':
             break
-    print("당신의 카드목록입니다.>> ",player.pocket)
 
+    print("당신의 카드목록입니다.>> ",player.pocket)
     print("\n당신의 최종 점수는 {}점 입니다.".format(player.final_score))
-    print("\n딜러의 최종 점수는 {}점 입니다.\n".format(dealer.final_score))
     print("딜러의 카드목록입니다.>> ",dealer.pocket,"\n")
+    print("\n딜러의 최종 점수는 {}점 입니다.\n".format(dealer.final_score))
+
     if player.final_score > 21:
         print("21점을 초과하였습니다.\n 당신은 패배하셨습니다.")
     elif player.final_score <= 21 and dealer.final_score > 21 :
@@ -144,8 +145,8 @@ while True:
     
     reset = input("\n게임을 더 하시겠습니까?(y/n)>> ")
     if reset == 'y':
+        print("\n=======================================================")
         continue
     if reset == 'n':
-        print("\n게임종료")
+        print("\n게임이 종료되었습니다.")
         break
-
