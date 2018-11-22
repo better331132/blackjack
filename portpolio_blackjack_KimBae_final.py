@@ -45,15 +45,15 @@ while True:
                 else:
                     exist_a = 0
                 self.quant_a = self.quant_a + exist_a
-            print("\n당신의 카드목록입니다.>> ",self.pocket,"\n")
-            print("당신은 A를 {}개 보유하고 있습니다.".format(self.quant_a))
+            print("\n당신의 카드목록입니다.>> ",self.pocket)
+            print("\n당신은 A를 {}개 보유하고 있습니다.".format(self.quant_a))
         
         def trans_a(self):
             self.final_score = 0
             if self.quant_a == 0:
                 self.final_score = self.sum_i
             else:
-                q = input("\n1점으로 간주할 A의 개수를 선택해주세요. >> ")
+                q = input("\n1점으로 간주할 A의 개수를 선택해주세요. {}개까지 가능합니다.(숫자로 입력) >> ".format(self.quant_a))
                 self.final_score = self.sum_i - 10 * int(q)
 
     class Player(Person):
@@ -120,28 +120,27 @@ while True:
         player.havemanya()
         player.trans_a()
         if player.final_score > 21:
-            print("21점을 초과하였습니다.\n 당신은 패배하셨습니다.")
             break
         player.add_card()
         if player.det == 'stay':
             break
 
-    print("당신의 카드목록입니다.>> ",player.pocket)
+    print("\n당신의 카드목록입니다.>> ",player.pocket)
     print("\n당신의 최종 점수는 {}점 입니다.".format(player.final_score))
-    print("딜러의 카드목록입니다.>> ",dealer.pocket,"\n")
+    print("\n딜러의 카드목록입니다.>> ",dealer.pocket)
     print("\n딜러의 최종 점수는 {}점 입니다.\n".format(dealer.final_score))
 
     if player.final_score > 21:
-        print("21점을 초과하였습니다.\n 당신은 패배하셨습니다.")
+        print("21점을 초과하였습니다.\n\n당신은 패배하셨습니다.")
     elif player.final_score <= 21 and dealer.final_score > 21 :
-        print("딜러의 점수가 21점을 초과하였습니다. \n 당신은 승리하셨습니다.")
+        print("딜러의 점수가 21점을 초과하였습니다.\n\n당신은 승리하셨습니다.")
     else:
         if player.final_score > dealer.final_score:
-            print("당신의 점수가 딜러의 점수보다 높습니다.\n 당신은 승리하셨습니다.")
+            print("당신의 점수가 딜러의 점수보다 높습니다.\n\n당신은 승리하셨습니다.")
         elif player.final_score == dealer.final_score:
-            print("당신의 점수가 딜러의 점수와 같습니다.\n 무승부입니다.")
+            print("당신의 점수가 딜러의 점수와 같습니다.\n\n무승부입니다.")
         else :
-            print("당신의 점수가 딜러의 점수보다 낮습니다.\n 당신은 패배하셨습니다.")
+            print("당신의 점수가 딜러의 점수보다 낮습니다.\n\n당신은 패배하셨습니다.")
     
     reset = input("\n게임을 더 하시겠습니까?(y/n)>> ")
     if reset == 'y':
