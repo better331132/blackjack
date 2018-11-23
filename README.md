@@ -176,8 +176,6 @@ class Person의 상속을 받는 하위 class입니다.
                 else:
                     exist_a = 0
                 self.quant_a = self.quant_a + exist_a
-          ~~print("\n당신의 카드목록입니다.>> ",self.pocket)~~
-          ~~print("\n당신은 A를 {}개 보유하고 있습니다.".format(self.quant_a))~~
 ```
 class Person의 상속을 받는 하위 class입니다.  
 따라서 class Person에 속한 method들을 class Dealer(Person)의 instance가 호출할 수 있습니다.  
