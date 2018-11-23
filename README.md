@@ -182,7 +182,7 @@ class Person의 상속을 받는 하위 class입니다.
 class Person의 상속을 받는 하위 class입니다.  
 따라서 class Person에 속한 method들을 class Dealer(Person)의 instance가 호출할 수 있습니다.  
 class Dealer(Person)의 howmanya method는 class Dealer(person)의 instance가 갖는 카드현황과 Ace 수를 보이지 않게 해야합니다.
-Line 43 ~ 52중 Line 43 ~ 50까지는 동일하나 카드현황과 Ace의 개수를 출력하지 않아야 하므로 Line 51, 52는 삭제하였습니다.
+Line 38 ~ 47중 Line 38 ~ 45까지는 동일하나 카드현황과 Ace의 개수를 출력하지 않아야 하므로 Line 46, 47는 삭제하였습니다.
 
 #### Line 78 ~ 86 :
 ```
